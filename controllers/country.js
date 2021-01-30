@@ -17,7 +17,7 @@ exports.insertMany = (req, res) => {
   Country.insertMany(req.body)
     .then(function () {
       return res.status(200).json({
-       msg:"Successfully all countries inserted."
+        msg: "Successfully all countries inserted.",
       });
     })
     .catch(function (error) {
@@ -25,22 +25,21 @@ exports.insertMany = (req, res) => {
         error: err,
       });
     });
-
 };
 
 exports.update = (req, res) => {
   let country = req.country;
   country = lodash.extend(country, req.body);
-  country.save((err, data)=>{
-      if (err){
-          return res.status(400).json({
-              error: "Country dose not exist."
-          })
-      }
+  country.save((err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Country dose not exist.",
+      });
+    }
 
-      res.json({data});
-  })
-}
+    res.json({ data });
+  });
+};
 
 exports.remove = (req, res) => {
   let country = req.country;
@@ -69,15 +68,23 @@ exports.countryById = (req, res, next, id) => {
     next();
   });
 };
-exports.list = (req, res) => {
-  Country.find().exec((err, data) => {
-    if (err) {
-      return res.status(400).json({
-        error: err,
-      });
-    }
-    res.json(data);
-  });
+exports.list = async (req, res) => {
+  // Country.find().select("name -_id").exec((err, data) => {
+  //   if (err) {
+  //     return res.status(400).json({
+  //       error: err,
+  //     });
+  //   }
+  //   res.json(data);
+  // });
+  const names = await Country.distinct("name");
+  if (names) {
+    return res.json(names);
+  } else {
+    return res.status(400).json({
+      error: "Countries not found!",
+    });
+  }
 };
 exports.read = (req, res) => {
   res.json(req.country);
