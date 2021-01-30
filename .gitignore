@@ -1,0 +1,11 @@
+node_modules
+sowdamart
+uploads
+data
+logs
+images
+/logs/app.log
+.env
+*.wt
+*.lock
+
