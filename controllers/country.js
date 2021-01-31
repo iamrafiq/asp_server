@@ -69,14 +69,6 @@ exports.countryById = (req, res, next, id) => {
   });
 };
 exports.list = async (req, res) => {
-  // Country.find().select("name -_id").exec((err, data) => {
-  //   if (err) {
-  //     return res.status(400).json({
-  //       error: err,
-  //     });
-  //   }
-  //   res.json(data);
-  // });
   const names = await Country.distinct("name");
   if (names) {
     return res.json(names);

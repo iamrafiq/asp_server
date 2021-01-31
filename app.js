@@ -9,6 +9,7 @@ require("dotenv").config();
 
 // import routes
 const country = require("./routes/country");
+const activity = require("./routes/activity");
 
 //app
 const app = express();
@@ -32,12 +33,12 @@ if (process.env.BUILD_TYPE==="dev"){
 }else{
   app.use(morgan('combined', { stream: winston.stream }));
 }
-
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
 app.use("/api", country);
+app.use("/api", activity);
 
 const port = process.env.PORT || 8000;
 
